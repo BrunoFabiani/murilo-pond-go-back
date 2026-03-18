@@ -1,0 +1,11 @@
+#1. build stage
+FROM mcr.microsoft.com/dotnet/sdk:8:0 AS build
+
+WORKDIR /src
+
+# resore
+COPY ["gin.go"]
+RUN dotnet restore 'gin.go'
+
+
+# build 
