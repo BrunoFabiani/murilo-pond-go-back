@@ -1,0 +1,4 @@
+#syntax=docker/dockerfile:1
+FROM postgres:16
+
+COPY simple.sql /docker-entrypoint-initdb.d/01-simple.sql

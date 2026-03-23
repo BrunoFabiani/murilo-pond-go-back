@@ -3,18 +3,18 @@ FROM golang:1.26.1
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
+COPY rabbit/go.mod rabbit/go.sum ./rabbit/
+COPY middlewere/go.mod ./middlewere/
 
-ENV RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
-
+WORKDIR /app/rabbit
 RUN go mod download
 
-COPY receive.go ./
+COPY rabbit/ ./
+COPY middlewere/ /app/middlewere/
 
+ENV RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+ENV DATABASE_URL=postgres://postgres:postgres@postgres:5432/telemetria?sslmode=disable
 
-# Build
 RUN CGO_ENABLED=0 GOOS=linux go build -o /my-rabbitmq
 
-
-# Run
 CMD ["/my-rabbitmq"]
